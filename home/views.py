@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
+from .models import Customer
 # Create your views here.
-def reg(request):
+#def reg(request):
 
-    return render(request,'regform.html')
+ #   return render(request,'regform.html')
 
 def preview(request):
 
@@ -21,20 +22,22 @@ class Register(View):
 
     def post(self,request):
         postData = request.POST
-        name = postData.get('name')
-        phone = postData.get('phone')
+        fname = postData.get('fname')
+        oname = postData.get('oname')
+        emp_id = postData.get('emp_id')
+        mob = postData.get('mob')
         email = postData.get('email')
-        password = postData.get('password')
+        
         # validation
-        value = {'name': name, 'mob': mob, 'email': email}
-        customer = Customer(name=name, phone=phone, email=email, password=password)
+        value = {'fname': fname,'oname': oname,'emp_id': emp_id, 'mob': mob, 'email': email}
+        customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob, email=email)
         err_msg = self.validateCustomer(customer)
 
         # saving
         if not err_msg:
             
             customer.register()
-            return redirect('regform')
+            return HttpResponse("Register Sucessfull")
         else:
             data = {'error': err_msg, 'values': value}
             return render(request, "regform.html", data)
@@ -44,7 +47,9 @@ class Register(View):
         if (not customer.fname):
             err_msg = "Name Required!"
         elif (not customer.oname):
-            err_msg = "Phone No. required"
+            err_msg = "Organization Name. required"
+        elif (not customer.emp_id):
+            err_msg = "Employee Id. required"
         elif (not customer.mob):
             err_msg = "Phone No. required"
         elif not customer.validatePhone():

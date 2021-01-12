@@ -8,7 +8,7 @@ class Customer(models.Model):
     emp_id =models.CharField(max_length=50)
     mob = models.CharField(max_length=15)
     email = models.EmailField(max_length=254)
-    image = models.ImageField(upload_to="img/%y")
+    image = models.ImageField(upload_to='uploads/ids/',default='',null=True )
     
     
 

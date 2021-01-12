@@ -18,9 +18,11 @@ from django.urls import path,include
 
 from django.urls import path
 from . import views
+from .views import Register
 
 urlpatterns = [
-    path('', views.reg, name='reg'),
+    path('',Register.as_view() , name=''),
+     #path('register',Register.as_view(),name='register'),
     path('preview',views.preview,name='preview'),
 
 ]
