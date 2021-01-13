@@ -27,7 +27,38 @@ class Register(View):
         mob = postData.get('mob')
         email = postData.get('email')
         image = request.FILES['image']
+
+        value = {'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image}
+
         customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob, email=email,image=image)
-        customer.register()
-        return HttpResponse("Sucess")
-       
+
+        err_msg = self.validateCustomer(customer)
+
+        # saving
+        if not err_msg:
+            customer.register()
+            return HttpResponse("Sucess")
+
+        else:
+            data = {'error': err_msg, 'values': value}
+            return render(request, "regform.html", data)
+
+    def validateCustomer(self, customer):
+        err_msg = None
+        if (not customer.fname):
+            err_msg = "Your Name Required!"
+        elif (not customer.oname):
+            err_msg = "Organizaton Name Required!"
+        elif (not customer.mob):
+            err_msg = "Mobile No. required"
+        elif not customer.validatePhone():
+            err_msg = "Enter valid Mobile no."
+        elif len(customer.mob) < 10:
+            err_msg = "Mobile No. must have 10 digits"
+        elif not customer.validateEmail():
+            err_msg = 'Enter valid email'
+        elif not customer.image:
+            err_msg = "please upload id image"
+        elif customer.doExists():
+            err_msg = 'Email Address Already registered..'
+        return err_msg
