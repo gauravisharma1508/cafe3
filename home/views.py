@@ -49,6 +49,8 @@ class Register(View):
             err_msg = "Your Name Required!"
         elif (not customer.oname):
             err_msg = "Organizaton Name Required!"
+        elif (not customer.emp_id):
+            err_msg = "Employ-id Required!"
         elif (not customer.mob):
             err_msg = "Mobile No. required"
         elif not customer.validatePhone():
