@@ -9,41 +9,47 @@
 
 <body>
                     <h2 class="title">Registration Form</h2>
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
+                        
                         {% csrf_token %}
-                            
+                        
+                        
+                        <div class="alert alert-danger" role="alert">
+                            {{error}}
+                        </div>
+                         
                                 <div class="input-group">
                                     <label class="label">full name</label>
-                                    <input class="input--style-4" type="text" name="fname">
+                                    <input  class="input--style-4" type="text" name="fname">
                                 </div>
                             
                             
                                 <div class="input-group">
                                     <label class="label">Organization name</label>
-                                    <input class="input--style-4" type="text" name="oname">
+                                    <input  class="input--style-4" type="text" name="oname">
                                 </div>
                             
                         
                                 <div class="input-group">
                                     <label class="label">Employee ID no.</label>
-                                    <input class="input--style-4" type="text" name="emp_id">
+                                    <input  class="input--style-4" type="text" name="emp_id">
                                 </div>
                   
                                 <div class="input-group">
                                     <label class="label">Mobile No.</label>
-                                    <input class="input--style-4" type="text" name="mob">
+                                    <input  class="input--style-4" type="text" name="mob">
                                 </div>
 
                                 <div class="input-group">
                                     <label class="label">Email</label>
-                                    <input class="input--style-4" type="email" name="email">
+                                    <input required class="input--style-4" type="email" name="email">
                                 </div>
                                 
                    
 
                                 <div class="input-group">
                                     
-                                    <input type='file' name="image" accept="image/x-png,image/gif,image/jpeg" onchange="readURL(this);" />
+                                    <input required type='file' name="image" accept="image/x-png,image/gif,image/jpeg" onchange="readURL(this);" />
     <img id="blah" src="#" alt="your image" />
                                 	
 <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
