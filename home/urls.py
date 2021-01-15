@@ -18,11 +18,14 @@ from django.urls import path,include
 
 from django.urls import path
 from . import views
-from .views import Register
+from .views import Register,Signin,Signup
 
 urlpatterns = [
-    path('',Register.as_view() , name=''),
-     #path('register',Register.as_view(),name='register'),
-    path('preview',views.preview,name='preview'),
+    path('',Signin.as_view() , name='signin'),
+
+    path('register',Register.as_view() , name='register'),
+    path('signup',Signup.as_view() , name='signup'),
+    #path('signin',Signin.as_view() , name='signin'),
+    #path('preview',views.preview,name='preview'),
 
 ]

@@ -1,23 +1,19 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.http import HttpResponse
 from django.views import View
 from .models import Customer
+from django.contrib.auth.hashers import make_password, check_password
 # Create your views here.
 #def reg(request):
            
 
-def preview(request):
-
-    return render(
-        request,
-        'preview.html',
-        #{'categories': categories, 'products': products}
-    )
 
 
 class Register(View):
-    def get(self,request):
-        return render(request, 'regform.html')
+    def get(self,request,val=None):
+        email=val.email
+        password=val.password
+        return render(request, 'regform.html',{'email': email, 'password': password})
 
     def post(self,request):
         postData = request.POST
@@ -26,18 +22,24 @@ class Register(View):
         emp_id = postData.get('emp_id')
         mob = postData.get('mob')
         email = postData.get('email')
-        image = request.FILES['image']
+        password=postData.get('password')
+        #email = request.session['e']
+        #email=val()
+        image = request.FILES.get('image')
 
-        value = {'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image}
 
-        customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob, email=email,image=image)
+
+        value = {'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password}
+
+        customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob, email=email,image=image,password=password)
 
         err_msg = self.validateCustomer(customer)
 
         # saving
         if not err_msg:
+            customer.password = make_password(customer.password)
             customer.register()
-            return HttpResponse("Sucess")
+            return HttpResponse("Success")
 
         else:
             data = {'error': err_msg, 'values': value}
@@ -59,8 +61,50 @@ class Register(View):
             err_msg = "Mobile No. must have 10 digits"
         elif not customer.validateEmail():
             err_msg = 'Enter valid email'
-        elif not customer.image:
-            err_msg = "please upload id image"
+        #elif not customer.image:
+            #err_msg = "please upload id image"
         elif customer.doExists():
             err_msg = 'Email Address Already registered..'
         return err_msg
+
+class Signin(View):
+    def get(self,request):
+        Signin.return_url = request.GET.get('return_url')
+        return render(request, 'signin.html')
+
+
+
+
+    def post(self, request):
+
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        customer = Customer.get_customer_by_email(email)
+        err_msg = None
+        if customer:
+            flag = check_password(password, customer.password)
+            if flag:
+                request.session['customer'] = customer.id
+                request.session['email'] = customer.email
+                if Signin.return_url:
+                    return HttpResponseRedirect(Signin.return_url)
+                else:
+                    Signin.return_url = None
+                    return HttpResponse("Success")
+            else:
+                err_msg = 'Email or Password invalid'
+        else:
+            err_msg = 'Email or Password invalid'
+        return render(request, 'signin.html', {'error': err_msg})
+
+class Signup(View):
+    def get(self,request):
+        return render(request, 'signup.html')
+
+    def post(self,request):
+        postData = request.POST
+        email = postData.get('email')
+        password = postData.get('password')
+        val={'email': email, 'password': password}
+        return render('regform.html',val)
+

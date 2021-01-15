@@ -9,8 +9,8 @@
 
 <body>
                     <h2 class="title">Registration Form</h2>
-                    <form method="POST" enctype="multipart/form-data">
-                        
+                    <form method="POST" enctype="multipart/form-data" >
+
                         {% csrf_token %}
                         
                         
@@ -49,7 +49,7 @@
 
                                 <div class="input-group">
                                     
-                                    <input required type='file' name="image" accept="image/x-png,image/gif,image/jpeg" value="{{values.image}}" onchange="readURL(this);" />
+                                    <input required type='file' id="image" name="image" accept="image/x-png,image/gif,image/jpeg"  onchange="readURL(this);" />
     <img id="blah" src="#" alt="your image" />
                                 	
 <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -72,12 +72,11 @@ function readURL(input) {
 </script>
                                 </div>
                                 <br>
-     
-
-                        	<button class="btn btn--radius-2 btn--blue" type="preview"><a href="{% url 'preview' %}">Preview</a></button>
+                        	<button class="btn btn--radius-2 btn--blue" type="preview">Preview</button>
                             <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
 
                     </form>
+
 
 </body>
 
