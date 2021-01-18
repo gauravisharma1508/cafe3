@@ -10,11 +10,11 @@
 <body>
 
     <h1>Preview</h1>
-<h1>Email{{cust.email}}</h1>
-    <h1>Name {{cust.fname}}</h1>
+<h1>Email {{customer.email}}</h1>
+    <h1>Name {{customer.fname}}</h1>
 <!--h1>Name {{image}}</h1-->
-    <img src="{{ cust.image.url }}">
-    <img src="{{ product.image.url }}" class="card-img-top" alt="Card image cap">
+    <img src="{{ customer.image.url }}">
+    <img src="{{ customer.image.url }}" class="card-img-top" alt="Card image cap">
 <button class="btn btn--radius-2 btn--blue" type="preview">Submit</button>
 <p><a href="{% url 'register' %}"> edit</a></p>
 

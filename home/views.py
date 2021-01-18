@@ -10,18 +10,19 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 class Preview(View):
-    def get(self,request):#,value=None):
+    def get(self,request,value=None):
         #fname = value.fname
         #oname = value.oname
         #emp_id = value.emp_id
         #mob = value.mob
-        #email = value.email
+        email = value.email
         #password=value.password
         #image = value.image
 
-        email = request.session.get('email')
-        cust = Customer.objects.filter(email=email)
-        return render(request, 'preview.html',{'cust':cust})#{'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password})
+        #email = request.session.get('email')
+        customer = Customer.get_customer_by_email(email)
+        #cust = Customer.objects.filter(email=email)
+        return render(request, 'preview.html',customer)#{'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password})
 
     def post(self,request):
         #postData = request.POST
@@ -72,9 +73,10 @@ class Register(View):
             customer.password = make_password(customer.password)
             customer.register()
             #request.session['customer'] = customer.id
-            request.session['email'] = customer.email
+            #cust = Customer.objects.filter(email=email)
+            #request.session['email'] = customer.email
             #return HttpResponse("Success")
-            return render(request, "preview.html", value)
+            return render(request, "preview.html",value) #{'value':value,'cust':cust})
 
         else:
             data = {'error': err_msg, 'values': value}
