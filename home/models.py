@@ -49,3 +49,6 @@ class Customer(models.Model):
             except (ValueError, TypeError,ValidationError):
                 return False
 
+    @staticmethod
+    def get_customer_by_id(ids):
+        return Customer.objects.filter(id__in =ids)

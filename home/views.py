@@ -9,6 +9,36 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 
+class Preview(View):
+    def get(self,request):#,value=None):
+        #fname = value.fname
+        #oname = value.oname
+        #emp_id = value.emp_id
+        #mob = value.mob
+        #email = value.email
+        #password=value.password
+        #image = value.image
+
+        email = request.session.get('email')
+        cust = Customer.objects.filter(email=email)
+        return render(request, 'preview.html',{'cust':cust})#{'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password})
+
+    def post(self,request):
+        #postData = request.POST
+        #fname = postData.get('fname')
+        #oname = postData.get('oname')
+        #emp_id = postData.get('emp_id')
+        #mob = postData.get('mob')
+        #email = postData.get('email')
+        #password=postData.get('password')
+        ##email = request.session['e']
+        ##email=val()
+        #image = request.FILES.get('image')
+
+        #customer = Customer(fname=fname, oname=oname, emp_id=emp_id, mob=mob, email=email, image=image,password=password)
+        #customer.register()
+        return HttpResponse("Success")
+
 class Register(View):
     def get(self,request,val=None):
         email=val.email
@@ -29,6 +59,8 @@ class Register(View):
 
 
 
+
+
         value = {'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password}
 
         customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob, email=email,image=image,password=password)
@@ -39,7 +71,10 @@ class Register(View):
         if not err_msg:
             customer.password = make_password(customer.password)
             customer.register()
-            return HttpResponse("Success")
+            #request.session['customer'] = customer.id
+            request.session['email'] = customer.email
+            #return HttpResponse("Success")
+            return render(request, "preview.html", value)
 
         else:
             data = {'error': err_msg, 'values': value}
