@@ -106,5 +106,5 @@ class Signup(View):
         email = postData.get('email')
         password = postData.get('password')
         val={'email': email, 'password': password}
-        return render('regform.html',val)
+        return render(request,'regform.html',val)
 
