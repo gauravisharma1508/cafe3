@@ -3,44 +3,19 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Customer
 from django.contrib.auth.hashers import make_password, check_password
-# Create your views here.
-#def reg(request):
+from .models import Customer
+
            
 
 
 
 class Preview(View):
-    def get(self,request,value=None):
-        #fname = value.fname
-        #oname = value.oname
-        #emp_id = value.emp_id
-        #mob = value.mob
-        #email = value.email
-        #password=value.password
-        #image = value.image
+    def get(self,request,email=None):
 
-        #email = request.session.get('email')
-        #customer = Customer.get_customer_by_email(email)
-        #reg = request.session.get('register')
-        #cust = Customer.objects.filter(email=email)
-        #request.session['register'] = reg
-        #return render(request, 'preview.html',reg)#{'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password})
-        all=Customer.objects.all
+        all= Customer.objects.filter(email=email)
         return render(request,"preview.html",{'all': all})
     def post(self,request):
-        #postData = request.POST
-        #fname = postData.get('fname')
-        #oname = postData.get('oname')
-        #emp_id = postData.get('emp_id')
-        #mob = postData.get('mob')
-        #email = postData.get('email')
-        #password=postData.get('password')
-        ##email = request.session['e']
-        ##email=val()
-        #image = request.FILES.get('image')
 
-        #customer = Customer(fname=fname, oname=oname, emp_id=emp_id, mob=mob, email=email, image=image,password=password)
-        #customer.register()
         return HttpResponse("Success")
 
 class Register(View):
@@ -57,8 +32,7 @@ class Register(View):
         mob = postData.get('mob')
         email = postData.get('email')
         password=postData.get('password')
-        #email = request.session['e']
-        #email=val()
+
         image = request.FILES.get('image')
 
 
@@ -75,11 +49,10 @@ class Register(View):
         if not err_msg:
             customer.password = make_password(customer.password)
             customer.register()
-            #request.session['customer'] = customer.id
-            #cust = Customer.objects.filter(email=email)
-            #request.session['email'] = customer.email
-            #return HttpResponse("Success")
-            return render(request, "preview.html",value) #{'value':value,'cust':cust})
+
+            all= Customer.objects.filter(email=email)
+
+            return render(request, "preview.html",{'all':all})
 
         else:
             data = {'error': err_msg, 'values': value}
@@ -132,9 +105,9 @@ class Signin(View):
                     Signin.return_url = None
                     return HttpResponse("Success")
             else:
-                err_msg = 'Email or Password invalid'
+                err_msg = 'Email or Password invalid1'
         else:
-            err_msg = 'Email or Password invalid'
+            err_msg = 'Email or Password invalid2'
         return render(request, 'signin.html', {'error': err_msg})
 
 class Signup(View):

@@ -10,26 +10,22 @@
 <body>
 
     <h1>Preview</h1>
-<h1>Email {{customer.email}}</h1>
-    <h1>Name {{customer.fname}}</h1>
-<!--h1>Name {{image}}</h1-->
-    <img src="{{ customer.image.url }}">
-    <img src="{{ customer.image.url }}" class="card-img-top" alt="Card image cap">
-<button class="btn btn--radius-2 btn--blue" type="preview">Submit</button>
-<p><a href="{% url 'register' %}"> edit</a></p>
+
+
 
 {% for item in all %}
-    {{ item.fname }}<br/>
-    {{ item.oname }}<br/>
-    {{ item.emp_id }}<br/>
-    {{ item.email }}<br/>
-    {{ item.mob }}<br/>
-    
-    <img src="{{BASE_DIR}}{{ item.image }}">
+   <p>Name:{{ item.fname }}</p>
+    <p>Organization:{{ item.oname }}</p>
+    <p>id:{{ item.emp_id }}</p>
+    <p>email:{{ item.email }}</p>
+    <p>mob:{{ item.mob }}</p><br/>
+    <img src="{{BASE_DIR}}{{ item.image.url }}" class="card-img-top" alt="Card image cap" height="100" width="100">
     {{ item.image }}<br/>
-    {{ item.order_id }}<br/><br/>
+    <p>reg-id:{{ item.order_id }}</p><br/><br/>
 {% endfor %}
 
+<button class="btn btn--radius-2 btn--blue" type="preview">Submit</button>
+<p><a href="{% url 'register' %}"> edit</a></p>
 
 </body>
 
