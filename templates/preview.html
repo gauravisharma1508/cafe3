@@ -18,6 +18,18 @@
 <button class="btn btn--radius-2 btn--blue" type="preview">Submit</button>
 <p><a href="{% url 'register' %}"> edit</a></p>
 
+{% for item in all %}
+    {{ item.fname }}<br/>
+    {{ item.oname }}<br/>
+    {{ item.emp_id }}<br/>
+    {{ item.email }}<br/>
+    {{ item.mob }}<br/>
+    
+    <img src="{{BASE_DIR}}{{ item.image }}">
+    {{ item.image }}<br/>
+    {{ item.order_id }}<br/><br/>
+{% endfor %}
+
 
 </body>
 

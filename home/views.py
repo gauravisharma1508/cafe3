@@ -15,15 +15,18 @@ class Preview(View):
         #oname = value.oname
         #emp_id = value.emp_id
         #mob = value.mob
-        email = value.email
+        #email = value.email
         #password=value.password
         #image = value.image
 
         #email = request.session.get('email')
-        customer = Customer.get_customer_by_email(email)
+        #customer = Customer.get_customer_by_email(email)
+        #reg = request.session.get('register')
         #cust = Customer.objects.filter(email=email)
-        return render(request, 'preview.html',customer)#{'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password})
-
+        #request.session['register'] = reg
+        #return render(request, 'preview.html',reg)#{'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password})
+        all=Customer.objects.all
+        return render(request,"preview.html",{'all': all})
     def post(self,request):
         #postData = request.POST
         #fname = postData.get('fname')

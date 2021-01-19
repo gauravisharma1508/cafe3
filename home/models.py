@@ -18,7 +18,7 @@ class Customer(models.Model):
         self.save()
 
     def __str__(self):
-        return self.order_id
+        return self.fname
 
     @staticmethod
     def get_customer_by_email(email):
