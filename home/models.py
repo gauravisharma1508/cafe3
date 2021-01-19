@@ -4,14 +4,15 @@ from home.utils import unique_order_id_generator
 # Create your models here.
 
 class Customer(models.Model):
-    fname =models.CharField(max_length=50,blank= False,default='',null=True )
-    oname =models.CharField(max_length=50,blank= False,default='',null=True )
-    emp_id =models.CharField(max_length=50,blank= False,default='',null=True )
+    fname = models.CharField(max_length=50,blank= False,default='',null=True )
+    oname = models.CharField(max_length=50,blank= False,default='',null=True )
+    emp_id = models.CharField(max_length=50,blank= False,default='',null=True )
     mob = models.CharField(max_length=15,blank= False,default='',null=True )
     email = models.EmailField(max_length=254,blank= False,default='',null=True )
     image = models.FileField(upload_to='uploads/ids/',blank= False,default='',null=True )
     password = models.CharField(max_length=500,blank= False,default='',null=True )
     order_id=models.CharField(max_length=120,blank= True,null=True )
+    reg_date=models.DateField(auto_now_add=True,auto_now=False,blank=True)
 
 
     def register(self):
