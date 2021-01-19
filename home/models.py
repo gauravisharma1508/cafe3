@@ -2,6 +2,10 @@ from django.db import models
 from django.db.models.signals import pre_save
 from home.utils import unique_order_id_generator
 # Create your models here.
+from django.utils import timezone
+
+
+
 
 class Customer(models.Model):
     fname = models.CharField(max_length=50,blank= False,default='',null=True )
@@ -13,10 +17,17 @@ class Customer(models.Model):
     password = models.CharField(max_length=500,blank= False,default='',null=True )
     order_id=models.CharField(max_length=120,blank= True,null=True )
     reg_date=models.DateField(auto_now_add=True,auto_now=False,blank=True)
+    #reg_date = models.DateTimeField(editable=False)
 
+    #def save(self, *args, **kwargs):
+        #''' On save, update timestamps '''
+        #if not self.id:
+            #self.reg_date = timezone.now()
+        #self.modified = timezone.now()
+        #return super(Customer, self).save(*args, **kwargs)
 
-    def register(self):
-        self.save()
+    #def register(self):
+        #self.save()
 
     def __str__(self):
         return self.fname
@@ -64,3 +75,24 @@ def pre_save_create_order_id(sender,instance,*args,**kwargs):
         instance.order_id = unique_order_id_generator(instance)
 
 pre_save.connect(pre_save_create_order_id,sender=Customer)
+
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class Menu(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.IntegerField(default=0)
+    slug = models.SlugField(unique=True)
+    category = models.ForeignKey(
+        Category,on_delete=models.CASCADE,default='')
+    #description = models.CharField(max_length=200, default='',null=True , blank=True)
+    image = models.ImageField(upload_to='uploads/products/',default='',null=True )
+
+    def __str__(self):
+        return self.name
+
