@@ -100,9 +100,10 @@ class Menu(models.Model):
     @staticmethod
     def get_menu_by_category(category):
         try:
-            return Menu.objects.get(category=category)
+            return Menu.objects.filter(category=category)
         except:
             return False
     @staticmethod
     def get_menu_by_id(ids):
         return Menu.objects.filter(id__in =ids)
+

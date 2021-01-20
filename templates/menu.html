@@ -18,9 +18,7 @@
  <div class="card mx-auto mb-3" id={{menu.id}} style="width: 15rem;">
   <img src="{{ menu.image.url }}" class="card-img-top" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title"><a href ="{% url 'category' pk=menu.name %}">{{menu.name}}<a/></h5>
-
-
+    <h5 class="card-title"><a href ="{% url 'category' pk=menu.id %}">{{menu.name}}<a/></h5>
 
    </div>
 {% endfor %}
