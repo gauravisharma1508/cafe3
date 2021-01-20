@@ -101,7 +101,7 @@ class Signin(View):
                 return HttpResponseRedirect(Signin.return_url)
             else:
                 Signin.return_url = None
-                return HttpResponse("Success")
+                return redirect('menu.html')
         else:
             err_msg = 'Email or Password invalid2'
         return render(request, 'signin.html', {'error': err_msg})
