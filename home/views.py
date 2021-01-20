@@ -96,16 +96,12 @@ class Signin(View):
         err_msg = None
         if customer:
             flag = check_password(password, customer.password)
-            if flag:
-                request.session['customer'] = customer.id
-                request.session['email'] = customer.email
-                if Signin.return_url:
-                    return HttpResponseRedirect(Signin.return_url)
-                else:
-                    Signin.return_url = None
-                    return HttpResponse("Success")
+
+            if Signin.return_url:
+                return HttpResponseRedirect(Signin.return_url)
             else:
-                err_msg = 'Email or Password invalid1'
+                Signin.return_url = None
+                return HttpResponse("Success")
         else:
             err_msg = 'Email or Password invalid2'
         return render(request, 'signin.html', {'error': err_msg})
@@ -126,6 +122,6 @@ class Menu(View):
         return render(request, 'menu.html')
 
     def post(self,request):
-        menues=Category.objects.all()
+        menues = Category.objects.all
 
         return render(request,'menu.html', {'menues':menues})
