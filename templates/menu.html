@@ -8,11 +8,17 @@
 
 <div class="prod" style="padding:40px;">
 <div class="row">
+    <div class="rose" style="background-color: #f8f9fa;">
+<form method="get" action="/search" class="form-inline my-2 my-lg-0" >
+                    <input name="search" id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width:82%; margin-left:65px; margin-bottom:10px;">
+                    <button class="btn" type="submit" style="background-color:red; color:white; width:92px;  margin-bottom:10px;">Search</button>
+                </form>
+            </div>
 {% for menu in menues %}
  <div class="card mx-auto mb-3" id={{menu.id}} style="width: 15rem;">
   <img src="{{ menu.image.url }}" class="card-img-top" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">{{menu.name}}</h5>
+    <h5 class="card-title"><a href ="{% url 'category' pk=menu.name %}">{{menu.name}}<a/></h5>
 
 
 

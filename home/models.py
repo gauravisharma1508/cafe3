@@ -97,3 +97,12 @@ class Menu(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_menu_by_category(category):
+        try:
+            return Menu.objects.get(category=category)
+        except:
+            return False
+    @staticmethod
+    def get_menu_by_id(ids):
+        return Menu.objects.filter(id__in =ids)

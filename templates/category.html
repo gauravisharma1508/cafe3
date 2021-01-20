@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="prod" style="padding:40px;">
+<div class="row">
+{% for menu in menues %}
+ <div class="card mx-auto mb-3" id={{menu.id}} style="width: 15rem;">
+  <img src="{{ menu.image.url }}" class="card-img-top" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{menu.name}}</h5>
+
+   </div>
+{% endfor %}
+     </div>
+</div>
+</body>
+</html>

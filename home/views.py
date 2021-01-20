@@ -3,15 +3,14 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Customer
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Customer,Category
-
+from .models import Customer,Category,Menu
+from django.db.models import Q
            
 
 
 
 class Preview(View):
     def get(self,request,email=None):
-
         all= Customer.objects.filter(email=email)
         return render(request,"preview.html",{'all': all})
     def post(self,request):
@@ -89,7 +88,6 @@ class Signin(View):
 
 
     def post(self, request):
-
         email = request.POST.get('email')
         password = request.POST.get('password')
         customer = Customer.get_customer_by_email(email)
@@ -101,7 +99,7 @@ class Signin(View):
                 return HttpResponseRedirect(Signin.return_url)
             else:
                 Signin.return_url = None
-                return redirect('menu.html')
+                return redirect('menu')
         else:
             err_msg = 'Email or Password invalid2'
         return render(request, 'signin.html', {'error': err_msg})
@@ -117,12 +115,35 @@ class Signup(View):
         val={'email': email, 'password': password}
         return render(request,'regform.html',val)
 
-class Menu(View):
+class Dish(View):
     def get(self,request):
         menues = Category.objects.all()
         return render(request, 'menu.html',{'menues':menues})
 
-    #def post(self,request):
+    def post(self,request):
         #menues = Category.objects.all()
 
-        #return render(request,'menu.html', {'menues':menues})
+        return render(request,'menu.html')#, {'menues':menues})
+
+class Search(View):
+
+    def post(self, request):
+        menues = Category.objects.all()
+        return render(request, 'search.html',{'menues':menues})
+
+    def get(self,request):
+        kw = self.request.GET.get('search')
+        products = Category.objects.filter(Q(name__icontains=kw))
+        context={}
+        context['products'] = products
+        context['kw'] = kw
+        return render(request, 'search.html',context)
+
+class Cat(View):
+
+    def post(self, request):
+        return render(request, 'category.html')
+
+    def get(self,request,pk=None):
+        menues = Menu.get_menu_by_category(category=pk)
+        return render(request, 'category.html',{'menues':menues})
