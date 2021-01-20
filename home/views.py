@@ -13,9 +13,9 @@ class Preview(View):
     def get(self,request,email=None):
         all= Customer.objects.filter(email=email)
         return render(request,"preview.html",{'all': all})
-    def post(self,request):
 
-        return HttpResponse("Success")
+    def post(self,request):
+        return redirect('menu')
 
 class Register(View):
     def get(self,request,val=None):
