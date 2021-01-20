@@ -26,8 +26,8 @@ class Customer(models.Model):
         #self.modified = timezone.now()
         #return super(Customer, self).save(*args, **kwargs)
 
-    #def register(self):
-        #self.save()
+    def register(self):
+        self.save()
 
     def __str__(self):
         return self.fname
@@ -80,6 +80,7 @@ pre_save.connect(pre_save_create_order_id,sender=Customer)
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='uploads/products/', default='', null=True)
 
     def __str__(self):
         return self.name

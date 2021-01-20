@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Customer
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Customer
+from .models import Customer,Menu,Category
 
            
 
@@ -121,3 +121,11 @@ class Signup(View):
         val={'email': email, 'password': password}
         return render(request,'regform.html',val)
 
+class Menu(View):
+    def get(self,request):
+        return render(request, 'menu.html')
+
+    def post(self,request):
+        menues=Category.objects.all()
+
+        return render(request,'menu.html', {'menues':menues})
