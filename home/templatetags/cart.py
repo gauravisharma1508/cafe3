@@ -26,9 +26,9 @@ def price_total(menu , cart ):
     return menu.price * cart_quantity(menu,cart)
 
 @register.filter(name='total_cart_price')
-def total_cart_price(menu,cart):
+def total_cart_price(menues,cart):
     sum=0
-    for prdct in menu:
+    for prdct in menues:
         sum += price_total(prdct , cart)
 
     return sum

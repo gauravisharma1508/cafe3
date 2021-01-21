@@ -37,6 +37,7 @@ class Customer(models.Model):
     @staticmethod
     def get_customer_by_email(email):
         try:
+           # print(Customer.objects.get(email=email))
             return Customer.objects.get(email=email)
         except:
             return False
@@ -110,7 +111,7 @@ class Menu(models.Model):
         return Menu.objects.filter(id__in =ids)
 
 class Order(models.Model):
-    Menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     payment = models.CharField(max_length=50, default='', blank=True)
     phone = models.CharField(max_length=50, default='', blank=True)

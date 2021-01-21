@@ -22,7 +22,7 @@ from .views import Register,Signin,Signup,Preview,Dish,Cat,Search,Cart,CheckOut,
 
 urlpatterns = [
     path('',Signin.as_view() , name='signin'),
-
+    path('signin',Signin.as_view() , name='signin'),
     path('register',Register.as_view() , name='register'),
     path('signup',Signup.as_view() , name='signup'),
     #path('signin',Signin.as_view() , name='signin'),

@@ -95,15 +95,24 @@ class Signin(View):
         email = request.POST.get('email')
         password = request.POST.get('password')
         customer = Customer.get_customer_by_email(email)
+        print(email,password)
         err_msg = None
+        
         if customer:
-            flag = check_password(password, customer.password)
-
-            if Signin.return_url:
-                return HttpResponseRedirect(Signin.return_url)
+            flag = customer.check_password(password)
+            print(flag)
+            print(customer.password)
+            if flag is False:
+                request.session['customer'] = customer.id
+                request.session['email'] = customer.email
+                
+                if Signin.return_url:
+                    return HttpResponseRedirect(Signin.return_url)
+                else:
+                    Signin.return_url = None
+                    return redirect('menu')
             else:
-                Signin.return_url = None
-                return redirect('menu')
+                err_msg = 'Email or Password invalid1'
         else:
             err_msg = 'Email or Password invalid2'
         return render(request, 'signin.html', {'error': err_msg})
