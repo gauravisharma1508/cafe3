@@ -1,0 +1,33 @@
+{% load cart %}
+{% load custom_filter %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="m-2 p-3">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input class="radio" type="radio" name="payment" value="cash" checked /> <span>Ca$h</span>
+            <input class="radio" type="radio" name="payment" value="gpay" /> <span>GPay</span>
+            <input class="radio" type="radio" name="payment" value="cc" /> <span>Credit Card</span>
+            <input class="radio" type="radio" name="payment" value="db" /> <span>Debit Card</span>
+            <input class="radio" type="radio" name="payment" value="upi" /> <span>UPI Wallet</span>
+
+            <div class="form-group">
+                <label for="">Phone</label>
+                <input type="text" name="phone" id="" class="form-control" placeholder="" aria-describedby="helpId">
+              </div>
+
+              <input type="submit" class="btn float-right btn-outline-info col-lg-6" value="Check out">
+
+              
+        </form>
+      </div>
+    
+</body>
+</html>

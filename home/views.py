@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.http import HttpResponse
 from django.views import View
-from .models import Customer
+
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Customer,Category,Menu
+from .models import Customer,Category,Menu,Order
 from django.db.models import Q
            
 
@@ -177,3 +177,60 @@ class Cart(View):
         ids=list(request.session.get('cart').keys())
         menues=Menu.get_menu_by_id(ids)
         return render(request, 'cart.html',{'menues': menues})
+
+class CheckOut(View):
+    def post(self , request):
+        payment = request.POST.get('payment')
+        phone = request.POST.get('phone')
+        
+        customer = request.session.get('customer')
+        cart = request.session.get('cart')
+        menues = Menu.get_menu_by_id(list(cart.keys()))
+        print(payment, phone, customer, cart, menues)
+
+        for menu in menues:
+            print(cart.get(str(menu.id)))
+            order = Order(customer=Customer(id=customer),
+                          menu=menu,
+                          price=menu.price,
+                          payment=payment,
+                          phone=phone,
+                          quantity=cart.get(str(menu.id)))
+            order.save()
+        request.session['cart'] = {}
+
+        return redirect('cart')        
+    def get(self,request):
+        #customer = request.session.get('customer')
+        #orders = Order.get_orders_by_customer(customer)
+        return render(request , 'checkout.html' ) 
+class OrderView(View):
+
+    def post(self, request):
+        menu=request.POST.get('menu')
+        remove=request.POST.get('remove')
+        cart = request.session.get('cart')
+        if cart:
+            quantity = cart.get(menu)
+            if quantity:
+                if remove:
+                    if quantity <= 1:
+                        cart.pop(menu)
+                    else:
+                        cart[menu] = quantity-1
+                else:
+                    cart[menu] = quantity+1
+            else:
+                cart[menu] = 1
+        else:
+            cart = {}
+            cart[menu] = 1
+
+        request.session['cart'] = cart
+        return redirect('order')
+
+    def get(self , request ):
+
+        customer = request.session.get('customer')
+        orders = Order.get_orders_by_customer(customer)
+        return render(request , 'order.html'  , {'orders' : orders})  

@@ -18,7 +18,7 @@ from django.urls import path,include
 
 from django.urls import path
 from . import views
-from .views import Register,Signin,Signup,Preview,Dish,Cat,Search,Cart
+from .views import Register,Signin,Signup,Preview,Dish,Cat,Search,Cart,CheckOut,OrderView
 
 urlpatterns = [
     path('',Signin.as_view() , name='signin'),
@@ -31,5 +31,7 @@ urlpatterns = [
     path('category/<int:pk>/',Cat.as_view(),name='category'),
     path('category',Cat.as_view(),name='category'),
     path('cart',Cart.as_view(),name='cart'),
+    path('checkout',CheckOut.as_view(),name='checkout'),
+    path('order',OrderView.as_view(),name='order'),
     
 ]
