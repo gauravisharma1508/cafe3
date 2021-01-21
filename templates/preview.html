@@ -21,9 +21,9 @@
     <p>reg-id:{{ item.order_id }}</p><br/><br/>
 {% endfor %}
 
-<button class="btn btn--radius-2 btn--blue" type="preview">Submit</button>
-<p><a href="{% url 'register' %}"> edit</a></p>
 
+<p><a href="{% url 'register' %}"> edit</a></p>
+<p><a role="button" href="{% url 'menu' %}"> Submit/Done</a></p>
 </body>
 
 </html>

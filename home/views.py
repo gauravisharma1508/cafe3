@@ -15,7 +15,7 @@ class Preview(View):
         return render(request,"preview.html",{'all': all})
 
     def post(self,request):
-        return redirect('menu')
+        return render(request,'signin.html')
 
 class Register(View):
     def get(self,request,val=None):
@@ -125,8 +125,6 @@ class Dish(View):
         return render(request, 'menu.html',{'menues':menues})
 
     def post(self,request):
-
-
         return render(request,'menu.html')
 
 class Search(View):
