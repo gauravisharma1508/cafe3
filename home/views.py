@@ -30,7 +30,9 @@ class Register(View):
         emp_id = postData.get('emp_id')
         mob = postData.get('mob')
         email = postData.get('email')
-        password=postData.get('password')
+        password = postData.get('password')
+
+
 
         image = request.FILES.get('image')
 
@@ -38,9 +40,10 @@ class Register(View):
 
 
 
-        value = {'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob, 'email': email,'image':image,'password':password}
+        value = {'fname': fname,'oname': oname,'emp_id':emp_id,'mob': mob,'image':image,'email': email,'password':password}
 
-        customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob, email=email,image=image,password=password)
+        customer = Customer(fname=fname,oname=oname,emp_id=emp_id, mob=mob,image=image,email=email,password=password)
+
 
         err_msg = self.validateCustomer(customer)
 
@@ -52,6 +55,7 @@ class Register(View):
             all= Customer.objects.filter(email=email)
 
             return render(request, "preview.html",{'all':all})
+            #return  HttpResponse('success')
 
         else:
             data = {'error': err_msg, 'values': value}
@@ -73,8 +77,8 @@ class Register(View):
             err_msg = "Mobile No. must have 10 digits"
         elif not customer.validateEmail():
             err_msg = 'Enter valid email'
-        #elif not customer.image:
-            #err_msg = "please upload id image"
+        elif not customer.image:
+            err_msg = "please upload id image"
         elif customer.doExists():
             err_msg = 'Email Address Already registered..'
         return err_msg
@@ -121,9 +125,9 @@ class Dish(View):
         return render(request, 'menu.html',{'menues':menues})
 
     def post(self,request):
-        #menues = Category.objects.all()
 
-        return render(request,'menu.html')#, {'menues':menues})
+
+        return render(request,'menu.html')
 
 class Search(View):
 

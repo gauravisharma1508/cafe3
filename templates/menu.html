@@ -19,6 +19,7 @@
   <img src="{{ menu.image.url }}" class="card-img-top" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title"><a href ="{% url 'category' pk=menu.id %}">{{menu.name}}<a/></h5>
+                <h5 class="card-title">{{menu.price}}</h5>
 
    </div>
 {% endfor %}
