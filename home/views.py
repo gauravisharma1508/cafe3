@@ -143,9 +143,37 @@ class Search(View):
 
 class Cat(View):
 
-    def post(self, request):
-        return render(request, 'category.html')
+    def post(self, request,pk):
+        menues = Menu.get_menu_by_category(category=pk)
+        menu = request.POST.get('menu')
+        remove=request.POST.get('remove')
+        cart = request.session.get('cart')
+        if cart:
+            quantity = cart.get(menu)
+            if quantity:
+                if remove:
+                    if quantity <= 1:
+                        cart.pop(menu)
+                    else:
+                        cart[menu] = quantity-1
+                else:
+                    cart[menu] = quantity+1
+            else:
+                cart[menu] = 1
+        else:
+            cart = {}
+            cart[menu] = 1
+
+        request.session['cart'] = cart
+        
+        return render(request,"category.html",{'menues':menues})
 
     def get(self,request,pk=None):
         menues = Menu.get_menu_by_category(category=pk)
         return render(request, 'category.html',{'menues':menues})
+
+class Cart(View):
+    def get(self, request):
+        ids=list(request.session.get('cart').keys())
+        menues=Menu.get_menu_by_id(ids)
+        return render(request, 'cart.html',{'menues': menues})

@@ -1,3 +1,6 @@
+{% load cart %}
+{% load custom_filter %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +16,39 @@
   <div class="card-body">
     <h5 class="card-title">{{menu.name}}</h5>
           <h5 class="card-title">{{menu.price}}</h5>
+          <div class="card-footer no-gutters">
 
+            {% if menu|is_in_cart:request.session.cart %}
+            <div class="row no-gutters" >
+                <form action="" class="col-2 " method="post">
+                    {% csrf_token %}
+                    <input hidden type="text" name='menu' value='{{menu.id}}'>
+                    <input hidden type="text" name='remove' value='True'>
+                    <input type="submit" value=" - " class="btn btn-block btn-light border-right">
+                </form>
+            </form>
+                <div class="text-center col">{{menu|cart_quantity:request.session.cart}} in cart </div>
+                <form action="" class="col-2 " method="post">
+                    {% csrf_token %}
+                <input hidden  type="text" name='menu' value={{menu.id}}>
+                <input type="submit" value=" + " class="btn btn-block btn-secondary">
+            </form>
+          
+            </div>
+            {% else %}
+            <form action="" method="POST" class="btn-block">
+            {% csrf_token %}
+            <input hidden  type="text" name='menu' value={{menu.id}}>
+            <input type="submit" class="btn btn-light border form-control" value="Add To Cart"> 
+        </form>
+        {% endif %}
+          
+          
+        </div>
+        </div>
    </div>
 {% endfor %}
+<a href="/cart"> CART</a>
      </div>
 </div>
 </body>

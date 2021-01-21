@@ -18,7 +18,7 @@ from django.urls import path,include
 
 from django.urls import path
 from . import views
-from .views import Register,Signin,Signup,Preview,Dish,Cat,Search
+from .views import Register,Signin,Signup,Preview,Dish,Cat,Search,Cart
 
 urlpatterns = [
     path('',Signin.as_view() , name='signin'),
@@ -28,6 +28,8 @@ urlpatterns = [
     #path('signin',Signin.as_view() , name='signin'),
     path('preview',Preview.as_view(),name='preview'),
     path('menu',Dish.as_view(),name='menu'),
-    path('search',Search.as_view(),name='search'),
     path('category/<int:pk>/',Cat.as_view(),name='category'),
+    path('category',Cat.as_view(),name='category'),
+    path('cart',Cart.as_view(),name='cart'),
+    
 ]
