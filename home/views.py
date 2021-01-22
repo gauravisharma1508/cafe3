@@ -188,7 +188,7 @@ class CheckOut(View):
     def post(self , request):
         payment = request.POST.get('payment')
         phone = request.POST.get('phone')
-        
+        takeaway=request.POST.get('takeaway')
         customer = request.session.get('customer')
         cart = request.session.get('cart')
         menues = Menu.get_menu_by_id(list(cart.keys()))
@@ -201,6 +201,7 @@ class CheckOut(View):
                           price=menu.price,
                           payment=payment,
                           phone=phone,
+                          takeaway=takeaway,
                           quantity=cart.get(str(menu.id)))
             order.save()
         request.session['cart'] = {}

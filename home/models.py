@@ -119,6 +119,7 @@ class Order(models.Model):
     price = models.IntegerField()
     date = models.DateField(default=datetime.datetime.today)
     status = models.BooleanField(default=False)
+    takeaway = models.TimeField(null=True)
 
     def placeOrder(self):
         self.save()
