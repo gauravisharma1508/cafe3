@@ -15,7 +15,7 @@
                         
                         
                         <div class="alert alert-danger" role="alert">
-                            {{error}}{{password}}
+                            {{error}}
                         </div>
                          
                                 <div class="input-group">
@@ -44,6 +44,12 @@
                                     <label class="label">Email</label>
                                     <input required class="input--style-4" type="email" name="email" value="{{values.email}}">
                                 </div>
+
+                                <div class="input-group">
+                                    <label hidden class="label">password</label>
+                                    <input hidden required class="input--style-4" type="password" name="password" value="{{values.password}}">
+                                </div>
+
                                 
                    
 

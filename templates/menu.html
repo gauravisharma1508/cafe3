@@ -25,5 +25,10 @@
 {% endfor %}
 </div>
 </div>
+                            {% if request.session.customer%}
+                            <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                            {% endif %}
+                        </li>
+
 </body>
 </html>

@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.http import HttpResponse
 from django.views import View
-
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Customer,Category,Menu,Order
 from django.db.models import Q
@@ -13,7 +12,6 @@ class Preview(View):
     def get(self,request,email=None):
         all= Customer.objects.filter(email=email)
         return render(request,"preview.html",{'all': all})
-
     def post(self,request):
         return render(request,'signin.html')
 
@@ -31,9 +29,6 @@ class Register(View):
         mob = postData.get('mob')
         email = postData.get('email')
         password = postData.get('password')
-
-
-
         image = request.FILES.get('image')
 
 
@@ -99,10 +94,12 @@ class Signin(View):
         err_msg = None
         
         if customer:
-            flag = customer.check_password(password)
-            print(flag)
-            print(customer.password)
-            if flag is False:
+            flag = check_password(password, customer.password)
+            #if password == customer.password:
+            #flag = customer.check_password(password)
+            #print(flag)
+            #print(customer.password)
+            if flag:
                 request.session['customer'] = customer.id
                 request.session['email'] = customer.email
                 
@@ -208,7 +205,7 @@ class CheckOut(View):
             order.save()
         request.session['cart'] = {}
 
-        return redirect('cart')        
+        return redirect('cart')
     def get(self,request):
         #customer = request.session.get('customer')
         #orders = Order.get_orders_by_customer(customer)
@@ -242,4 +239,9 @@ class OrderView(View):
 
         customer = request.session.get('customer')
         orders = Order.get_orders_by_customer(customer)
-        return render(request , 'order.html'  , {'orders' : orders})  
+        return render(request , 'order.html'  , {'orders' : orders})
+
+
+def logout(request):
+    request.session.clear()
+    return redirect('/signin')
